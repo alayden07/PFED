@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+    />
+    <style>
+        .sidebar {
+            height: 100vh;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: justify;
+            justify-content: center;
+            padding: .5rem 1rem;
+            flex-direction: column;
+            align-content: center;
+            width: 290px;
+        }
+
+        .vertical-center {
+            min-height: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    <title>{% block title %}Acceuil{% endblock %}</title>
+</head>
+<body style="display:flex;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sidebar" style="">
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" style="width: 100%" id="navbar">
+        <div class="navbar-nav d-flex flex-column" style="width: 100%">
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" id="home" href="/" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Acceuil</a>
+            <a class="nav-item nav-link" id="logout" href="/logout" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Déconnexion</a>
+            <a class="nav-item nav-link" id="accesslog" href="/accesslogDashboard" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Access Log</a>
+            <a class="nav-item nav-link" id="errorlog" href="/errorlogDashboard" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Error Log</a>
+            {% else %}
+            <a class="nav-item nav-link" id="login" href="/login" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Connexion</a>
+            <a class="nav-item nav-link" id="signUp" href="/sign-up" style="background-color: rgba(255,255,255,0.1); width: 100%; text-align: center; border-radius: 5px; color: white; margin: 5px 0;">Inscription</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="d-flex flex-column container-fluid vertical-center">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissable fade show container-fluid position-absolute" role="alert" style="width: 700px">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show container-fluid position-absolute" role="alert" style="width: 700px">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div class="d-flex flex-column justify-content-center align-items-center align-content-center container-fluid vertical-center">{%
+        block content %} {% endblock %}
+    </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+></script>
+
+<script
+        type="text/javascript"
+        src="{{ url_for('static', filename='index.js') }}"
+></script>
+</body>
+</html>
